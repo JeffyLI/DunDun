@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="INFO">
+    <Appenders>
+        <!--将日志在控制台输出-->
+        <Console name="Console" target="SYSTEM_OUT">
+            <!--日志输出的格式-->
+            <PatternLayout pattern="[%d] [%-5p] [LOGID:%X{logId}] %c{1} - %m%n"/>
+        </Console>
+
+        <!--   打印传输的日志    -->
+        <RollingFile name="TRANSFER"
+                     immediateFlush="true"
+                     fileName="/data/logs/transfer.log"
+                     filePattern="/data/logs/transfer.log.%d{yyyy-MM-dd-HH}.log">
+            <PatternLayout pattern="[%d] [%-5p] [LOGID:%X{logId}] %t %c{1} - %m%n"/>
+            <!--日志文件产生的策略，每隔一定的时间产生一个新的日志文件-->
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+        </RollingFile>
+    </Appenders>
+    <loggers>
+        <Root level="INFO">
+            <AppenderRef ref="Console"/>
+        </Root>
+    </loggers>
+</configuration>
