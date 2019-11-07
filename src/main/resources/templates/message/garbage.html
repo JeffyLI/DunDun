@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>不吐不快</title>
+    <style>
+        *{
+            margin: 0px;
+            padding: 0px;
+        }
+        html,body{
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        .boxDom{
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+        .boxDom img{
+            width: 100%;
+            height: 100%;
+        }
+        .idDom{
+            width: 100%;
+            height: 50px;
+            background-color: #666;
+            position: fixed;
+            bottom: 0px;
+        }
+        .content{
+            width: 600px;
+            height: 50px;
+            position: absolute;
+            left: 500px;
+            top:10px;
+        }
+        .title{
+            font-size: 25px;
+            display: inline;
+            vertical-align: bottom;
+            color: #fff;
+        }
+        .text{
+            width: 300px;
+            height: 30px;
+            border:none;
+            border-radius: 5px;
+            text-indent: 2em;
+            margin-left: 60px;
+        }
+        .btn{
+            width: 100px;
+            height: 30px;
+            margin-left: 20px;
+            font-size: 20px;
+            font-weight: 700;
+            color: #fff;
+            background-color: red;
+            border:none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .string {
+            width: 300px;
+            height: 40px;
+            margin-top: 20px;
+            position: absolute;
+            color: #000;
+            font-size: 20px;
+            font-family: "微软雅黑";
+        }
+    </style>
+</head>
+<body>
+<div class="boxDom" id="boxDom">
+    <div class="idDom">
+        <button id="stop" type="button">stop</button>
+        <button id="start" type="button">start</button>
+        <div class="content">
+            <p class="title">吐槽:</p>
+            <input type="text" class="text">
+            <button class="btn" id="btn" type="button">发送</button>
+        </div>
+    </div>
+</div>
+<script src="/js/jquery-3.3.1.js"></script>
+<script>
+    var gobal_n=0;
+    var speed=0.15;
+    $(function () {
+        var boxDom = $("#boxDom");
+        var top, right;
+        var pageWidth = parseInt($(document).width());
+        var pageHeight = parseInt($(document).height())-300;
+        $("#btn").bind("click", auto);
+        $("#stop").bind("click", stop);
+        $("#start").bind("click", start);
+        //绑定回车键按钮
+        document.onkeydown = function(event){
+            if(event.keyCode === 13){
+                auto();
+            }
+        };
+        function stop() {
+            var spandom = $("#boxDom>span");
+            spandom.stop();
+        }
+        function start() {
+            var i=2;
+            while(true){
+                var spandom = $("#boxDom>span:nth-child("+i+")");
+                if(typeof(spandom.html())==="undefined"){
+                    break;
+                }
+                var left=spandom.offset().left+400;
+                var time=left/speed;
+                console.log(left);
+                spandom.animate({"right":pageWidth+400},time,function(){
+                    $(this).remove();
+                });
+                i++;
+            }
+        }
+        function auto() {
+            //获取输入的字符串
+            var str = $(".text").val();
+            //生成一个元素
+            var createSpan = $("<span id='span_'"+gobal_n+ " class ='string'></span>");
+            //给元素赋值
+            createSpan.text(str);
+            //为了页面友好，清空刚输入的内容
+            $(".text").val("");
+            //生成元素一个随机的位置 为了使每一条弹幕都出现不同的位置
+            top = Math.floor(Math.random()*pageHeight);
+            createSpan.css({ "top": 200, "right": -400, "color": getRandomColor() });
+            createSpan.animate({"right":pageWidth+400},(pageWidth+800)/speed,function(){
+                $(this).remove();
+            });
+
+            boxDom.append(createSpan);
+            gobal_n+=1;
+        }
+        //定义一个可以生成随机颜色的方法
+        function getRandomColor(){
+            var colorArr = ['1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'];
+            var color = "";
+            for(var i=0;i<6;i++){
+                color += colorArr[Math.floor(Math.random()*16)];
+            }
+            return "#"+color;
+        }
+    })
+
+</script>
+</body>
+</html>

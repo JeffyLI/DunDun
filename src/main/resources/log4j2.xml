@@ -10,8 +10,8 @@
         <!--   打印传输的日志    -->
         <RollingFile name="TRANSFER"
                      immediateFlush="true"
-                     fileName="/data/logs/transfer.log"
-                     filePattern="/data/logs/transfer.log.%d{yyyy-MM-dd-HH}.log">
+                     fileName="/data/logs/dun-dun.log"
+                     filePattern="/data/logs/dun-dun.log.%d{yyyy-MM-dd-HH}.log">
             <PatternLayout pattern="[%d] [%-5p] [LOGID:%X{logId}] %t %c{1} - %m%n"/>
             <!--日志文件产生的策略，每隔一定的时间产生一个新的日志文件-->
             <Policies>
