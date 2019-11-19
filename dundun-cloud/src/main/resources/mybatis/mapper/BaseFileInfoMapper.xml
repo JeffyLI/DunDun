@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeffy.dundun.cloud.dao.mapper.BaseFileInfoMapper">
+    <resultMap id="BaseResultMap" type="com.jeffy.dundun.cloud.dao.module.BaseFileInfo">
+        <result column="fileId" property="fileId" jdbcType="VARCHAR" />
+        <result column="userId" property="userId" jdbcType="VARCHAR" />
+        <result column="fileHash" property="fileHash" jdbcType="VARCHAR" />
+        <result column="folderId" property="folderId" jdbcType="VARCHAR" />
+        <result column="fileName" property="fileName" jdbcType="VARCHAR" />
+        <result column="fileStatus" property="fileStatus" jdbcType="INTEGER" />
+        <result column="fileSize" property="fileSize" jdbcType="INTEGER" />
+        <result column="fileType" property="fileType" jdbcType="VARCHAR" />
+        <result column="createDate" property="createDate" jdbcType="TIMESTAMP" />
+        <result column="updateDate" property="updateDate" jdbcType="TIMESTAMP" />
+        <result column="savePath" property="savePath" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        fileId, userId, fileHash, folderId, fileName, fileStatus, fileType,createDate,updateDate,fileSize,savePath
+    </sql>
+
+    <sql id="Base_Where_Clause">
+        <where>
+            <if test="eqFileId != null">
+                AND fileId =#{eqFileId}
+            </if>
+            <if test="eqUserId != null">
+                AND userId =#{eqUserId}
+            </if>
+            <if test="eqFileHash != null">
+                AND fileHash =#{eqFileHash}
+            </if>
+            <if test="eqFolderId != null">
+                AND folderId =#{eqFolderId}
+            </if>
+            <if test="eqFileName != null">
+                AND fileName =#{eqFileName}
+            </if>
+            <if test="eqFileStatus != null">
+                AND fileStatus =#{eqFileStatus}
+            </if>
+            <if test="eqFileType != null">
+                AND fileType =#{eqFileType}
+            </if>
+            <if test="eqSavePath != null">
+                AND savePath =#{eqSavePath}
+            </if>
+        </where>
+    </sql>
+
+    <select id="selectByMap" resultMap="BaseResultMap" parameterType="java.util.Map">
+        SELECT <include refid="Base_Column_List" />
+        FROM c_base_user_info
+        <include refid="Base_Where_Clause"/>
+    </select>
+
+    <insert id="insert" parameterType="com.jeffy.dundun.cloud.dao.module.BaseFileInfo">
+        INSERT INTO c_base_user_info(fileId, userId, fileHash, folderId, fileName, fileStatus, fileType,createDate,updateDate,fileSize,savePath)
+        VALUES (#{fileId}, #{userId}, #{fileHash}, #{folderId}, #{fileName}, #{fileStatus}, #{fileType},#{createDate},
+        #{updateDate},#{fileSize},#{savePath})
+    </insert>
+
+    <delete id="deleteByMap" parameterType="java.util.Map">
+        DELETE FROM c_base_user_info
+        <include refid="Base_Where_Clause"/>
+    </delete>
+
+    <update id="updateByMap" parameterType="java.util.Map">
+        UPDATE c_base_user_info
+        <set>
+            <if test="fileId != null">
+                fileId =#{fileId},
+            </if>
+            <if test="userId != null">
+                userId =#{userId},
+            </if>
+            <if test="fileHash != null">
+                fileHash =#{fileHash},
+            </if>
+            <if test="folderId != null">
+                folderId =#{folderId},
+            </if>
+            <if test="fileName != null">
+                fileName =#{fileName},
+            </if>
+            <if test="fileStatus != null">
+                fileStatus =#{fileStatus},
+            </if>
+            <if test="fileType != null">
+                fileType =#{fileType},
+            </if>
+            <if test="updateDate != null">
+                updateDate =#{updateDate},
+            </if>
+            <if test="fileSize != null">
+                fileSize =#{fileSize},
+            </if>
+            <if test="savePath != null">
+                savePath =#{savePath},
+            </if>
+        </set>
+        <include refid="Base_Where_Clause"/>
+    </update>
+</mapper>
