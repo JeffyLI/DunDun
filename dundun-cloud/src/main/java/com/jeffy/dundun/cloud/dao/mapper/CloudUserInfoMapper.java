@@ -1,0 +1,35 @@
+package com.jeffy.dundun.cloud.dao.mapper;
+
+import com.jeffy.dundun.cloud.dao.module.CloudUserInfo;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Map;
+
+@Repository("cloudUserInfoMapper")
+public interface CloudUserInfoMapper {
+    /**
+     * 查询数据
+     * @param params
+     * @return
+     */
+    List<CloudUserInfo> selectByMap(Map<String,Object> params);
+
+    /**
+     * 插入数据
+     * @param cloudUserInfo
+     */
+    void insert(CloudUserInfo cloudUserInfo);
+
+    /**
+     * 更新数据
+     * @param params
+     */
+    void updateByMap(Map<String,Object> params);
+
+    /**
+     * 删除数据（物理删除）
+     * @param params
+     */
+    void deleteByMap(Map<String,Object> params);
+}

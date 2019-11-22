@@ -14,7 +14,7 @@ import java.util.Map;
 
 
 @RestController
-@RequestMapping("baseFile")
+@RequestMapping("baseFileInfo")
 public class BaseFileInfoController {
     @Resource
     private BaseFileInfoService baseFileInfoService;
@@ -39,15 +39,9 @@ public class BaseFileInfoController {
         BaseRespond<List<BaseFileInfo>> baseRespond=new BaseRespond<>();
 
         List<BaseFileInfo> baseFileInfos=baseFileInfoService.selectByUserId(userId);
-
-        if(baseFileInfos==null){
-            baseRespond.setMsg("Delete Fail");
-            baseRespond.setCode(400);
-        }else{
-            baseRespond.setData(baseFileInfos);
-            baseRespond.setMsg("SUCCESS");
-            baseRespond.setCode(200);
-        }
+        baseRespond.setData(baseFileInfos);
+        baseRespond.setMsg("SUCCESS");
+        baseRespond.setCode(200);
 
         return baseRespond;
     }
