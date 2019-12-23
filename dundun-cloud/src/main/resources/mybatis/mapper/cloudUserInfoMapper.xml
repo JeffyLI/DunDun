@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeffy.dundun.cloud.dao.mapper.CloudUserInfoMapper">
+    <resultMap id="BaseResultMap" type="com.jeffy.dundun.cloud.dao.module.CloudUserInfo">
+        <result column="id" property="id" jdbcType="INTEGER" />
+        <result column="accout" property="accout" jdbcType="VARCHAR" />
+        <result column="password" property="password" jdbcType="VARCHAR" />
+        <result column="phoneNum" property="phoneNum" jdbcType="INTEGER" />
+        <result column="email" property="email" jdbcType="VARCHAR" />
+        <result column="totalSpace" property="totalSpace" jdbcType="INTEGER" />
+        <result column="freeSpace" property="freeSpace" jdbcType="INTEGER" />
+        <result column="userLevel" property="userLevel" jdbcType="INTEGER" />
+        <result column="createDate" property="createDate" jdbcType="TIMESTAMP" />
+        <result column="updateDate" property="updateDate" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        id, accout, password, phoneNum, email, totalSpace, freeSpace,userLevel,createDate,updateDate
+    </sql>
+
+    <sql id="Base_Where_Clause">
+        <where>
+            <if test="eqId != null">
+                AND id =#{eqId}
+            </if>
+            <if test="eqAccout != null">
+                AND accout =#{eqAccout}
+            </if>
+            <if test="eqPhoneNum != null">
+                AND phoneNum =#{eqPhoneNum}
+            </if>
+            <if test="eqEmail != null">
+                AND email =#{eqEmail}
+            </if>
+            <if test="eqUserLevel != null">
+                AND userLevel =#{eqUserLevel}
+            </if>
+            <if test="eqTotalSpace != null">
+                AND totalSpace =#{eqTotalSpace}
+            </if>
+            <if test="eqFreeSpace != null">
+                AND freeSpace =#{eqFreeSpace}
+            </if>
+        </where>
+    </sql>
+
+    <select id="selectByMap" resultMap="BaseResultMap" parameterType="java.util.Map">
+        SELECT <include refid="Base_Column_List" />
+        FROM c_cloud_user_info
+        <include refid="Base_Where_Clause"/>
+    </select>
+
+    <insert id="insert" parameterType="com.jeffy.dundun.cloud.dao.module.BaseFileInfo">
+        INSERT INTO c_cloud_user_info(id, accout, password, phoneNum, email, totalSpace, freeSpace,userLevel,createDate,updateDate)
+        VALUES (#{id}, #{accout}, #{password}, #{phoneNum}, #{email}, #{totalSpace}, #{freeSpace},#{userLevel},
+        #{createDate},#{updateDate})
+    </insert>
+
+    <delete id="deleteByMap" parameterType="java.util.Map">
+        DELETE FROM c_cloud_user_info
+        <include refid="Base_Where_Clause"/>
+    </delete>
+
+    <update id="updateByMap" parameterType="java.util.Map">
+        UPDATE c_cloud_user_info
+        <set>
+            <if test="id != null">
+                id =#{id},
+            </if>
+            <if test="accout != null">
+                accout =#{accout},
+            </if>
+            <if test="password != null">
+                password =#{password},
+            </if>
+            <if test="phoneNum != null">
+                phoneNum =#{phoneNum},
+            </if>
+            <if test="email != null">
+                email =#{email},
+            </if>
+            <if test="totalSpace != null">
+                totalSpace =#{totalSpace},
+            </if>
+            <if test="freeSpace != null">
+                freeSpace =#{freeSpace},
+            </if>
+            <if test="userLevel != null">
+                userLevel =#{userLevel},
+            </if>
+            <if test="updateDate != null">
+                updateDate =#{updateDate},
+            </if>
+        </set>
+        <include refid="Base_Where_Clause"/>
+    </update>
+</mapper>

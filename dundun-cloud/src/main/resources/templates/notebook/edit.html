@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8" />
+    <title>Notebook</title>
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/static/editor.md-master/css/editormd.css"/>
+</head>
+<body>
+<div align="left" style="margin:5px;">
+    <p>标题：<input id="title" type="text" style="width:90%;font-size:18px;margin: 5px"></p>
+    <p>简要：<input id="tag" type="text" style="width:90%;font-size:18px;margin: 5px"></p>
+</div>
+<div id="layout">
+    <div id="test-editormd">
+        <textarea style="display:none;"></textarea>
+    </div>
+</div>
+<div align="right" >
+    <button type="button" class="btn btn-primary" onclick="createText()">创建</button>
+    <button type="button" class="btn btn-secondary" onclick="history.go(-1)">返回</button>
+</div>
+<script src="/static/editor.md-master/examples/js/jquery.min.js" ></script>
+<script src="/static/editor.md-master/editormd.min.js"></script>
+<script type="text/javascript">
+    var testEditor;
+    function createText(){
+        $.ajax({
+            type:"POST",
+            url:"/notebook/create",
+            data:{
+                content:testEditor.getMarkdown(),
+                title:$("#title").val(),
+                tag:$("#tag").val()
+            },
+            success:function (data) {
+                if(data.code===200){
+                    alert("文件创建成功");
+                    window.location.href="/notebook/homepage";
+                }else{
+                    alert("文件创建失败");
+                }
+            }
+        });
+    }
+    $(function() {
+        testEditor = editormd("test-editormd", {
+            width   : "100%",
+            height  : $(window).height()*0.75,
+            syncScrolling : "single",
+            flowChart : true,
+            sequenceDiagram : true,
+            codeFold : true,
+            emoji : true,
+            saveHTMLToTextarea : true,
+            path    : "/static/editor.md-master/lib/"
+        });
+    });
+</script>
+</body>
+</html>
