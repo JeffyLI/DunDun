@@ -3,6 +3,7 @@ package com.jeffy.dundun.cloud.controller;
 import com.jeffy.dundun.cloud.common.BaseRespond;
 import com.jeffy.dundun.cloud.dao.module.BaseFileInfo;
 import com.jeffy.dundun.cloud.service.BaseFileInfoService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -45,4 +46,5 @@ public class BaseFileInfoController {
 
         return baseRespond;
     }
+
 }

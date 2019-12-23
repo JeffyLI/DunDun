@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeffy.dundun.cloud.dao.mapper.NotebookMapper">
+    <resultMap id="BaseResultMap" type="com.jeffy.dundun.cloud.dao.module.Notebook">
+        <result column="id" property="id" jdbcType="INTEGER" />
+        <result column="title" property="title" jdbcType="VARCHAR" />
+        <result column="tag" property="tag" jdbcType="VARCHAR" />
+        <result column="userId" property="userId" jdbcType="INTEGER" />
+        <result column="content" property="content" jdbcType="VARCHAR" />
+        <result column="createDate" property="createDate" jdbcType="TIMESTAMP" />
+        <result column="updateDate" property="updateDate" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        id, title, tag, userId, content, createDate, updateDate
+    </sql>
+
+    <sql id="Base_Where_Clause">
+        <where>
+            <if test="eqId != null">
+                AND id =#{eqId}
+            </if>
+            <if test="eqTitle != null">
+                AND title =#{eqTitle}
+            </if>
+            <if test="eqTag != null">
+                AND tag =#{eqTag}
+            </if>
+            <if test="eqUserId != null">
+                AND userId =#{eqUserId}
+            </if>
+            <if test="eqContent != null">
+                AND content =#{eqContent}
+            </if>
+        </where>
+    </sql>
+
+    <select id="selectByMap" resultMap="BaseResultMap" parameterType="java.util.Map">
+        SELECT <include refid="Base_Column_List" />
+        FROM c_notebook
+        <include refid="Base_Where_Clause"/>
+    </select>
+
+    <insert id="insert" parameterType="com.jeffy.dundun.cloud.dao.module.BaseFileInfo">
+        INSERT INTO c_notebook(id, title, tag, userId, content, createDate)
+        VALUES (#{id}, #{title}, #{tag}, #{userId}, #{content}, #{createDate})
+    </insert>
+
+    <delete id="deleteByMap" parameterType="java.util.Map">
+        DELETE FROM c_notebook
+        <include refid="Base_Where_Clause"/>
+    </delete>
+
+    <update id="updateByMap" parameterType="java.util.Map">
+        UPDATE c_notebook
+        <set>
+            <if test="id != null">
+                id =#{id},
+            </if>
+            <if test="title != null">
+                title =#{title},
+            </if>
+            <if test="tag != null">
+                tag =#{tag},
+            </if>
+            <if test="userId != null">
+                userId =#{userId},
+            </if>
+            <if test="content != null">
+                content =#{content},
+            </if>
+            <if test="updateDate != null">
+                updateDate =#{updateDate},
+            </if>
+        </set>
+        <include refid="Base_Where_Clause"/>
+    </update>
+</mapper>
