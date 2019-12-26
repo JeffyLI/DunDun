@@ -3,3 +3,6 @@ spring:
     active: dev
 server:
   port: 8993
+  servlet:
+    session:
+      timeout: 86400
