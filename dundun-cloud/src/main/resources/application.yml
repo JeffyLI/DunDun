@@ -6,3 +6,8 @@ server:
   servlet:
     session:
       timeout: 86400
+pagehelper:
+    helperDialect: mysql
+    reasonable: true
+    supportMethodsArguments: true
+    params: count=countSql

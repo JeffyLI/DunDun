@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeffy.dundun.cloud.dao.mapper.CloudFileMapper">
+    <resultMap id="BaseResultMap" type="com.jeffy.dundun.cloud.dao.module.CloudFile">
+        <result column="md5" property="md5" jdbcType="VARCHAR" />
+        <result column="fileId" property="fileId" jdbcType="VARCHAR" />
+        <result column="containerId" property="containerId" jdbcType="INTEGER" />
+        <result column="objectId" property="objectId" jdbcType="VARCHAR" />
+        <result column="fileName" property="fileName" jdbcType="VARCHAR" />
+        <result column="fileSize" property="fileSize" jdbcType="INTEGER" />
+        <result column="durl" property="durl" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        md5, fileId, containerId, objectId, fileName, fileSize, durl
+    </sql>
+
+    <sql id="Base_Where_Clause">
+        <where>
+            <if test="eqMd5 != null">
+                AND md5 =#{eqMd5}
+            </if>
+            <if test="eqFileId != null">
+                AND fileId =#{eqFileId}
+            </if>
+            <if test="eqContainerId != null">
+                AND containerId =#{eqContainerId}
+            </if>
+            <if test="eqObjectId != null">
+                AND objectId =#{eqObjectId}
+            </if>
+            <if test="eqFileName != null">
+                AND fileName =#{eqFileName}
+            </if>
+            <if test="likeFileName != null">
+                AND fileName like CONCAT('%',#{likeFileName},'%' )
+            </if>
+            <if test="geFileSize != null">
+                AND fileSize <![CDATA[ >= ]]> #{geFileSize}
+            </if>
+            <if test="leFileSize != null">
+                AND fileSize <![CDATA[ <= ]]> #{leFileSize}
+            </if>
+        </where>
+    </sql>
+
+    <select id="selectByMap" resultMap="BaseResultMap" parameterType="java.util.Map">
+        SELECT <include refid="Base_Column_List" />
+        FROM c_cloud_file
+        <include refid="Base_Where_Clause"/>
+    </select>
+
+    <insert id="insert" parameterType="com.jeffy.dundun.cloud.dao.module.BaseFileInfo">
+        INSERT INTO c_cloud_file(md5, fileId, containerId, objectId, fileName, fileSize, durl)
+        VALUES (#{md5}, #{fileId}, #{containerId}, #{objectId}, #{fileName}, #{fileSize}, #{durl})
+    </insert>
+
+    <delete id="deleteByMap" parameterType="java.util.Map">
+        DELETE FROM c_cloud_file
+        <include refid="Base_Where_Clause"/>
+    </delete>
+
+    <update id="updateByMap" parameterType="java.util.Map">
+        UPDATE c_cloud_file
+        <set>
+            <if test="md5 != null">
+                md5 =#{md5},
+            </if>
+            <if test="fileId != null">
+                fileId =#{fileId},
+            </if>
+            <if test="containerId != null">
+                containerId =#{containerId},
+            </if>
+            <if test="objectId != null">
+                objectId =#{objectId},
+            </if>
+            <if test="fileName != null">
+                fileName =#{fileName},
+            </if>
+            <if test="fileSize != null">
+                fileSize =#{fileSize},
+            </if>
+            <if test="durl != null">
+                durl =#{durl},
+            </if>
+        </set>
+        <include refid="Base_Where_Clause"/>
+    </update>
+</mapper>

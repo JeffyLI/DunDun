@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>我的文件</title>
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css" />
+    <script src="/static/js/jquery-3.3.1.js" ></script>
+    <script src="/static/js/bootstrap410.min.js" ></script>
+</head>
+<body>
+<div>
+    文件名：<input type="text" id="fileName">
+    文件大小范围(KB)：<input type="text" id="geFileSize">-<input type="text" id="leFileSize">
+    <button onclick="getFileList()">搜索</button>
+</div>
+<div>
+    <table class="table table-striped table-bordered">
+        <thead>
+        <tr style="text-align: center">
+            <th>文件名</th>
+            <th>文件大小(KB)</th>
+            <th>下载地址</th>
+        </tr>
+        </thead>
+        <tbody id="listdata"></tbody>
+    </table>
+</div>
+<div>
+    <ul class="pagination justify-content-center" id="page"></ul>
+</div>
+</body>
+<script type="text/javascript">
+    var pageNum=1;
+    var pageSize=10;
+    var totalPages=0;
+
+    function getPrevious(){
+        if(pageNum>1) {
+            pageNum--;
+            getFileList(pageNum, pageSize);
+        }else{
+            alert("已经是第一页了");
+        }
+    }
+
+    function getNext(){
+        pageNum++;
+        getFileList(pageNum,pageSize);
+    }
+
+    function gotToPage(num){
+        pageNum=num;
+        getFileList(pageNum,pageSize);
+    }
+
+    function jumpToPage(){
+        var jumpNum=parseInt($("#jumpNum").val());
+        if(jumpNum<1 || jumpNum>totalPages){
+            alert("请输入正确的页数范围（1 - "+totalPages+")");
+            return;
+        }
+        pageNum=jumpNum;
+        getFileList(pageNum,pageSize);
+    }
+
+    function setPagePlugs(pages,navigatepageNums,hasPreviousPage,hasNextPage){
+        totalPages=pages;
+        html="";
+        html+='<li class="page-item" ><a class="page-link">总页数：'+pages+'</a></li>';
+        if(hasPreviousPage){
+            html+='<li class="page-item" onclick="getPrevious()"><a class="page-link">Previous</a></li>';
+        }
+        for(var i=0;i<navigatepageNums.length;i++) {
+            if(navigatepageNums[i]===pageNum){
+                html += '<li class="page-item"><a class="page-link" href="#">' + navigatepageNums[i] + '</a></li>';
+            }else{
+                html += '<li class="page-item" onclick="gotToPage('+navigatepageNums[i]+')"><a class="page-link">' + navigatepageNums[i] + '</a></li>';
+            }
+        }
+        if(hasNextPage) {
+            html += '<li class="page-item" onclick="getNext()"><a class="page-link">Next</a></li>';
+        }
+        html += '<li class="page-item"><input style="margin:5px;width:50px;" type="text" id="jumpNum"/></a></li>';
+        html += '<li class="page-item" onclick="jumpToPage()"><a class="page-link">跳转</a></li>';
+        $("#page").html(html);
+    }
+
+
+    function getFileList(){
+        $.ajax({
+            type:"POST",
+            url:"/cloudFile/list",
+            data:{
+                pageNum:pageNum,
+                pageSize:pageSize,
+                likeFileName:$("#fileName").val(),
+                geFileSize:$("#geFileSize").val(),
+                leFileSize:$("#leFileSize").val()
+            },
+            success:function (data) {
+                if(data.code!=200){
+                    alert("获取列表失败");
+                    return;
+                }
+
+                tdata=data.data;
+                filelist=tdata.list;
+                html="";
+                var durl="";
+                for(var i=0;i<filelist.length;i++){
+                    durl="<a href='"+filelist[i].durl+"' target='_blank'>下载</a>";
+                    html+="<tr><td>"+filelist[i].fileName+"</td><td style='text-align: right'>"+filelist[i].fileSize+"</td><td style='text-align: center'>"+durl+"</td></tr>"
+                }
+                $("#listdata").html(html);
+                setPagePlugs(tdata.pages,tdata.navigatepageNums,tdata.hasPreviousPage,tdata.hasNextPage);
+            }
+        });
+    }
+    getFileList();
+</script>
+</html>
