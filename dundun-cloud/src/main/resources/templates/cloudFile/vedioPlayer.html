@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>HTML实现在线播放代码示例</title>
+</head>
+<body>
+<div align="center" id="vedioplayer">
+<!--<video src="http://cloud189-shzh-home.oos-gdsz.ctyunapi.cn/4720f89f-5b98-41be-a2cc-ff77df05af8c.mp4?response-content-disposition=attachment%3Bfilename%3D%221.MP4%22&x-amz-CLIENTNETWORK=UNKNOWN&x-amz-CLIENTTYPEIN=UNKNOWN&Signature=dtWZXxdHZK8OBf6xUOjgZLzEZYg%3D&AWSAccessKeyId=e975956edda0be55c086&Expires=1795567201&x-amz-limitrate=1024000&response-content-type=video%2Fmp4" controls="controls" autoplay></video>-->
+</div>
+</body>
+<script src="/static/js/jquery-3.3.1.js" ></script>
+<script type="text/javascript">
+    var durl="[[${durl}]]";
+    function init(){
+        html='<video src="'+durl+'" controls="controls" preload="auto">你的浏览器不支持在线播放</video>';
+        $("#vedioplayer").html(html);
+    }
+    init();
+</script>
+</html>

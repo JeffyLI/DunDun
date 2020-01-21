@@ -9,6 +9,7 @@ import com.jeffy.dundun.cloud.service.CloudFileService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,8 +28,20 @@ public class CloudFileController {
     private Logger log= LogManager.getLogger(this.getClass());
 
     @RequestMapping("listPage")
-    public String listPage(HttpServletRequest reques){
+    public String listPage(HttpServletRequest request){
         return "cloudFile/listPage";
+    }
+
+    @RequestMapping("vedioPlayer")
+    public String vedioPlayer(HttpServletRequest request,ModelMap map){
+        Map<String,Object> params= RequestUtils.getParameterMap(request);
+        PageInfo<CloudFile> files=cloudFileService.selectByPage(params,1,10);
+        String durl="";
+        if(files.getSize()>0) {
+            durl = files.getList().get(0).getDurl();
+        }
+        map.addAttribute("durl", durl);
+        return "cloudFile/vedioPlayer";
     }
 
 

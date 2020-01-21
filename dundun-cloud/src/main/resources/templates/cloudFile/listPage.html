@@ -85,6 +85,16 @@
         $("#page").html(html);
     }
 
+    function canPlay(fileName){
+        var typelist=['mp4','MP4','mkv'];
+        for(type in typelist){
+            if(fileName.indexOf(typelist[type]) != -1){
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     function getFileList(){
         $.ajax({
@@ -109,6 +119,9 @@
                 var durl="";
                 for(var i=0;i<filelist.length;i++){
                     durl="<a href='"+filelist[i].durl+"' target='_blank'>下载</a>";
+                    if(canPlay(filelist[i].fileName)){
+                        durl+="&nbsp;<a href=/cloudFile/vedioPlayer?eqMd5="+filelist[i].md5+" target='_blank'>播放</a>";
+                    }
                     html+="<tr><td>"+filelist[i].fileName+"</td><td style='text-align: right'>"+filelist[i].fileSize+"</td><td style='text-align: center'>"+durl+"</td></tr>"
                 }
                 $("#listdata").html(html);
